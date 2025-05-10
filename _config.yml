@@ -15,7 +15,13 @@ title: Mustahsin Zarif's Portfolio # This is what shows up in the tab of the bro
 name: Mustahsin Zarif
 headline: Electrical engineering student at UC San Diego
 description: >- # dont remove this line. this will ignore all new lines until the next section
-  firmware. circuits. controls. product manager. Engineer and mentor. hackathon lover. IEEE Regional Student Representative for R6. 
+  firmware(); 
+  circuits(); 
+  controls(); 
+  product(); 
+  Engineer() && mentor(); 
+  hackathon_lover(); 
+  IEEE_Regional_Student_Representative_for_R6();
 
 # Place your profile image in /assets/images/profile-image/folder and edit the file name
 profile_image: ./assets/images/profile-image/zarif.jpg
