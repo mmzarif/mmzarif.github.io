@@ -7,23 +7,23 @@
 
 # Main Page Setup
 
-title: Mustahsin Zarif Portfolio # This is what shows up in the tab of the browser
+title: Mustahsin Zarif's Portfolio # This is what shows up in the tab of the browser
 
 
 
 # Hero Section
 name: Mustahsin Zarif
-headline: headline message
+headline: Electrical engineering student at UC San Diego
 description: >- # dont remove this line. this will ignore all new lines until the next section
-  Firmware. circuits. controls. product manager. Engineer and mentor. hackathon lover. IEEE Regional Student Rep for R6. 
+  firmware. circuits. controls. product manager. Engineer and mentor. hackathon lover. IEEE Regional Student Representative for R6. 
 
 # Place your profile image in /assets/images/profile-image/folder and edit the file name
-profile_image: ./assets/images/profile-image/avatar.jpeg
+profile_image: ./assets/images/profile-image/zarif.jpeg
 
 
 # Link your resume
 # You can place your resume in assets/resume/{resume file.pdf} or add external link such as pdf saved in google drive 
-resume-url: https://drive.google.com/file/d/13Z3duVzh-gguPU5r03oJVEE6rV9rd3DS/view?usp=sharing
+resume-url: https://docs.google.com/document/d/1bFC2HNWiBgHN6KCAXbZrGsyfck44qKlx/edit?usp=sharing&ouid=113477959929715673033&rtpof=true&sd=true
 
 
 # Set up external links - this will show up as small icons next to your name.
@@ -37,31 +37,33 @@ external-links:    # input only your own url slug. The icons with missing entrie
   threads:            # https://threads.net/@{your url slug} 
   instragram:       # https://instagram.com/{your url slug} 
   youtube:           # https://youtube.com/@{your url slug} 
-  discord:            # https://discord.com/users/{your url slug} 
+  discord: emptymiracles           # https://discord.com/users/{your url slug} 
   bluesky:           # https://bsky.app/profile/{your url slug} 
   
 
 # Skills Section - Add the list of your Skills by categories/tools. The indentation for each level needs to be precise. 
 skills:
+  - category: Prototyping
+    tools:
+    - Arduino / ESP32 / STM32 / Raspberry Pi
+    - Breadboarding for circuit testing
+    - Laser Cutting
+  - category: PCB Design
+    tools:
+    - Cadence Virtuoso
+    - LTSpice
+    - Altium Designer
+    - Altium
+    - Eagle 
+    - KiCad
   - category: 3D Modeling
     tools:
     - Onshape
-  - category: Prototyping
-    tools:
-    - Laser Cutting
-    - Arduino / ESP32 / STM32 / Raspberry Pi
-    - Breadboarding for circuit testing
   - category: Design Standards / Practices
     tools:
     - GD&T ASME Y14
     - ISO fits and tolerances
     - PLM (PTC Windchill / Arena)   
-  - category: PCB Design
-    tools:
-    - Altium Designer
-    - Altium
-    - Eagle 
-    - KiCad
   - category: Problem Solving / Risk Management
     tools:
     - Root Cause Analysis (e.g., 5 Whys, Fishbone Diagram)
@@ -71,18 +73,18 @@ skills:
 
 
 # Contact Form Setup. Setup an account and copy over the key. When someone fills out the form, it will be received in your email.
-formspree-key:   https://formspree.io/f/{8-digit key}
+formspree-key:   https://formspree.io/f/mvgaqwwk
 
 
 
 # Active theme (Updatethis to switch themes). Make sure to keep the indentation the samne.
 colors: # this is the basic theme
-  text: "#1a1c20"
-  border: "#ddd"
-  link: "#4a76ee"
-  highlight: "#0c0cf2"
-  background: "#ffffff"
-  light_background: "#f3f5fb"
+  text: "#2c3333"
+  border: "#e0f2ef"
+  link: "#40b3a2"
+  highlight: "#2a9d8f"
+  background: "#f7fbfa"
+  light_background: "#f0f9f7"
 
 # A few examples. 
 basic theme:
