@@ -18,7 +18,7 @@ description: >- # dont remove this line. this will ignore all new lines until th
   firmware. circuits. controls. product manager. Engineer and mentor. hackathon lover. IEEE Regional Student Representative for R6. 
 
 # Place your profile image in /assets/images/profile-image/folder and edit the file name
-profile_image: ./assets/images/profile-image/zarif.jpeg
+profile_image: ./assets/images/profile-image/zarif.jpg
 
 
 # Link your resume
@@ -39,6 +39,7 @@ external-links:    # input only your own url slug. The icons with missing entrie
   youtube:           # https://youtube.com/@{your url slug} 
   discord: emptymiracles           # https://discord.com/users/{your url slug} 
   bluesky:           # https://bsky.app/profile/{your url slug} 
+  maker.io: 7b2c153d77314b56bd4664b40d38511c          # https://www.digikey.com/en/maker/profiles/{your url slug} 
   
 
 # Skills Section - Add the list of your Skills by categories/tools. The indentation for each level needs to be precise. 
