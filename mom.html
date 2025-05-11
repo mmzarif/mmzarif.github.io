@@ -82,18 +82,23 @@
   </div>
 
   <div id="postcard">
-    <img src="mom.png" alt="Mom and Me">
+    <img src="mom.png" alt="Mom and Me" style="display:none;"/>
     <p>Happy Mother’s Day!</p>
   </div>
 
   <script>
     function openBox() {
-      document.getElementById('lid').style.transform = 'rotateX(180deg)';
-      document.getElementById('box').style.animation = 'none';
-      setTimeout(() => {
-        document.getElementById('postcard').style.display = 'block';
-      }, 1000);
-    }
+  document.getElementById('lid').style.transform = 'rotateX(180deg)';
+  document.getElementById('box').style.animation = 'none';
+
+  setTimeout(() => {
+    const img = document.getElementById('momImage');
+    img.src = 'mom.png';  // only loaded when box is clicked
+    img.style.display = 'block';
+    document.getElementById('postcard').style.display = 'block';
+  }, 1000);
+}
+
   </script>
 </body>
 </html>
