@@ -82,9 +82,9 @@
   </div>
 
   <div id="postcard">
-    <img src="mom.png" alt="Mom and Me" style="display:none;"/>
-    <p>Happy Mother’s Day!</p>
-  </div>
+  <img id="momImage" src="" alt="Mom and Me" style="display:none;" />
+  <p>Happy Mother’s Day!</p>
+</div>
 
   <script>
     function openBox() {
@@ -93,7 +93,7 @@
 
   setTimeout(() => {
     const img = document.getElementById('momImage');
-    img.src = 'mom.png';  // only loaded when box is clicked
+    img.src = 'mom.png';  // load now, not on page load
     img.style.display = 'block';
     document.getElementById('postcard').style.display = 'block';
   }, 1000);
