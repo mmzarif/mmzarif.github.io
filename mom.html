@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Mother's Day!</title>
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding-top: 60px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #d6336c;
+      margin-bottom: 20px;
+    }
+
+    #box {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+      background-color: #ff69b4;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      position: relative;
+      cursor: pointer;
+      animation: shake 1s infinite;
+      transition: transform 0.5s ease;
+    }
+
+    @keyframes shake {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(1deg); }
+      50% { transform: rotate(-1deg); }
+      75% { transform: rotate(1deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    #lid {
+      position: absolute;
+      top: -20px;
+      left: 0;
+      width: 150px;
+      height: 40px;
+      background-color: #ff1493;
+      border-radius: 10px 10px 0 0;
+      transition: transform 1s ease;
+      transform-origin: bottom;
+    }
+
+    #postcard {
+      display: none;
+      margin-top: 40px;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    #postcard img {
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    #postcard p {
+      margin-top: 10px;
+      font-size: 1.5rem;
+      color: #c2185b;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Click the box to reveal your Mother's Day surprise!</h1>
+  <div id="box" onclick="openBox()">
+    <div id="lid"></div>
+  </div>
+
+  <div id="postcard">
+    <img src="mom.jpg" alt="Mom and Me">
+    <p>Happy Mother’s Day!</p>
+  </div>
+
+  <script>
+    function openBox() {
+      document.getElementById('lid').style.transform = 'rotateX(180deg)';
+      document.getElementById('box').style.animation = 'none';
+      setTimeout(() => {
+        document.getElementById('postcard').style.display = 'block';
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
