@@ -88,6 +88,7 @@ Testbench simulates the FIFO with `FIFO_DEPTH = 4` for clarity.
 📂 [Testbench](https://github.com/mmzarif/market_data_parser/blob/main/sim/msg_fifo_tb.sv)
 
 ### Results:
+![Waveform](waveform.png)
 
 - ✅ `msg_out` remains undefined until `write_en` is asserted
 - ✅ Messages are correctly read out in order when `read_en` is high
