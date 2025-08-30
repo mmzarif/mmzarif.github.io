@@ -15,8 +15,8 @@ title: Mustahsin Zarif's Portfolio # This is what shows up in the tab of the bro
 name: Mustahsin Zarif
 headline: Electrical engineering student at UC San Diego
 description: >- # dont remove this line. this will ignore all new lines until the next section
-  Experience in circuits, controls, firmware, and product. Hackathon enthusiast. 
-    IEEE Regional Student_Representative for Region 6.
+  Experience in circuits, controls, firmware, and product engineering. Hackathon enthusiast. 
+  IEEE Regional Student_Representative for Region 6. DigiKey Ambassador at UCSD
 
 # Place your profile image in /assets/images/profile-image/folder and edit the file name
 profile_image: ./assets/images/profile-image/zarif.jpg
@@ -24,8 +24,7 @@ profile_image: ./assets/images/profile-image/zarif.jpg
 
 # Link your resume
 # You can place your resume in assets/resume/{resume file.pdf} or add external link such as pdf saved in google drive 
-resume-url: https://docs.google.com/document/d/1bFC2HNWiBgHN6KCAXbZrGsyfck44qKlx/edit?usp=sharing&ouid=113477959929715673033&rtpof=true&sd=true
-
+resume-url: https://drive.google.com/file/d/161jV2OCO5i-C7yYHTNLc5fzy3OHraZwr/view?usp=sharing
 
 # Set up external links - this will show up as small icons next to your name.
 
