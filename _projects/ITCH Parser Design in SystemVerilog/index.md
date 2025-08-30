@@ -12,7 +12,7 @@ skills:
   - Testbench development
   - Simulation and verification
 
-main-image: /itch-parser.jpg
+main-image: /parser_io.png
 ---
 
 ## Project Overview
