@@ -120,7 +120,7 @@ Test_vectors.hex:
 55 03 00 00 00 03 41 00 00 03 E8 00 00 00 64 CD
 ```
 
-{% include image-gallery.html images="itch-simulation-waveform.jpg" height="400" %}
+{% include image-gallery.html images="itch-simulation-waveform.png" height="400" %}
 
 Upon inspection in a simulation tool, we can conclude that the waveform shows expected behavior to our parser design!
 
