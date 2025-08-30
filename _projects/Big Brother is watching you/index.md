@@ -11,7 +11,7 @@ skills:
   - PCB prototyping
   - Component selection
 
-main-image: /bigBrotherEye.jpg
+main-image: /bigBrotherEye.png
 ---
 
 ## Project Overview
