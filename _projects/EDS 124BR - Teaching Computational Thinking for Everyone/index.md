@@ -1,5 +1,3 @@
-https://youtu.be/EuLTQDLMaac
-
 ---
 layout: post
 title: EDS 124BR - Teaching Computational Thinking for Everyone
