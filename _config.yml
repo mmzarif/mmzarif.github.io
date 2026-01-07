@@ -12,11 +12,12 @@ title: Mustahsin Zarif's Portfolio # This is what shows up in the tab of the bro
 
 
 # Hero Section
-name: Mustahsin Zarif
+name: Zarif
 headline: Electrical engineering student at UC San Diego
 description: >- # dont remove this line. this will ignore all new lines until the next section
+  Device Development Intern at pSemi. IEEE Regional Student_Representative for Region 6. DigiKey Ambassador at UC San Diego. 
   Experience in circuits, controls, firmware, and product engineering. Hackathon enthusiast. 
-  IEEE Regional Student_Representative for Region 6. DigiKey Ambassador at UCSD
+  
 
 # Place your profile image in /assets/images/profile-image/folder and edit the file name
 profile_image: ./assets/images/profile-image/zarif.jpg
@@ -24,7 +25,7 @@ profile_image: ./assets/images/profile-image/zarif.jpg
 
 # Link your resume
 # You can place your resume in assets/resume/{resume file.pdf} or add external link such as pdf saved in google drive 
-resume-url: https://drive.google.com/file/d/161jV2OCO5i-C7yYHTNLc5fzy3OHraZwr/view?usp=sharing
+resume-url: https://drive.google.com/file/d/10Af3tXdJvdaLMR-wj-aGNpG_tFsGj_x2/view?usp=drivesdk
 
 # Set up external links - this will show up as small icons next to your name.
 
@@ -44,12 +45,7 @@ external-links:    # input only your own url slug. The icons with missing entrie
 
 # Skills Section - Add the list of your Skills by categories/tools. The indentation for each level needs to be precise. 
 skills:
-  - category: Prototyping
-    tools:
-    - Arduino / ESP32 / STM32 / Raspberry Pi
-    - Breadboarding for circuit testing
-    - Laser Cutting
-    - 3D printing / Onshape
+
   - category: Circuit Design
     tools:
     - Cadence Virtuoso
@@ -57,6 +53,12 @@ skills:
     - SystemVerilog / Verilog
     - Vivado / Intel Quartus / Modelsim
     - Eagle / KiCad
+  - category: Prototyping
+    tools:
+    - Arduino / ESP32 / STM32 / Raspberry Pi
+    - Breadboarding for circuit testing
+    - Laser Cutting
+    - 3D printing / Onshape
   - category: Programming
     tools:
     - C / C++ 
