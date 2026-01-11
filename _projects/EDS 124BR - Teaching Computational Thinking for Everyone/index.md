@@ -11,4 +11,4 @@ main-image: /project2.jpg
 ---
 
 ## Explaining how a program works
-{% include youtube-video.html id="EuLTQDLMaac" autoplay= "false"%}
+{% include youtube-video.html id="EuLTQDLMaac" autoplay="false" %}
