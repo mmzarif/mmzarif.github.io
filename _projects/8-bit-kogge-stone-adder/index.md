@@ -7,33 +7,53 @@ skills:
 - Cadence Virtuoso
 - Static Logic Optimization
 - Performance Benchmarking
-main-image: /project-adder.webp
+main-image: /images/kogge_stone_main.png
 ---
 
 ## Project Overview
 
-[cite_start]This project involved the design and simulation of a custom **8-bit Kogge-Stone adder** as part of the ECE 165: Digital Integrated Circuit Design course at UCSD[cite: 1, 2]. [cite_start]The goal was to optimize for high-speed arithmetic performance while maintaining reasonable power consumption[cite: 8].
+[cite_start]This project involved the design and simulation of a custom **8-bit Kogge-Stone adder** as part of the ECE 165: Digital Integrated Circuit Design course at UCSD[cite: 1, 2]. [cite_start]The primary challenge was to optimize speed while maintaining reasonable power levels[cite: 8].
 
 ### Architecture & Design
-[cite_start]The Kogge-Stone architecture was selected over a standard Ripple-Carry Adder (RCA) because it utilizes a tree-based structure to calculate carries in $O(\log_2 N)$ time[cite: 18]. 
+[cite_start]The Kogge-Stone architecture was selected because its tree-based structure allows for carry-look-ahead benefits without the high fan-in issues of large bit adders[cite: 10]. 
 
-* [cite_start]**Logic Style:** While dynamic logic was initially attempted, the final design utilized **static logic** to overcome drive strength issues and synchronization errors[cite: 20, 31, 35].
-* [cite_start]**Performance:** The final design achieved a maximum clock frequency of **3.1 GHz** at 1.1V, outperforming our previous RCA implementation by 800 MHz[cite: 39].
-* [cite_start]**Power Consumption:** The adder required $451.8\ \mu W$ of power during operation at peak frequency[cite: 41].
+* [cite_start]**Logic Style:** We transitioned from dynamic logic to **static logic** to resolve weak drive strengths and clock synchronization issues[cite: 20, 31, 35].
+* [cite_start]**Performance:** Our static adder achieved a maximum clock frequency of **3.1 GHz** at a 1.1V power supply[cite: 39].
+* [cite_start]**Optimization:** We used the smallest transistor sizing possible to reduce capacitance and delay[cite: 26, 27].
+
+### Schematic Designs
+
+#### 1. The PG Block
+[cite_start]The first step in the architecture is translating input bit pairs into Propagate (P) and Generate (G) signals[cite: 22].
+
+![PG Block Diagram](/images/pg_block.png)
+[cite_start]*Figure 1: Schematic of the PG Block used for initial bit translation.*
 
 
-### Key Contributions
-* [cite_start]**Luke Wilson:** Team lead; developed both RCA and Kogge-Stone designs in Cadence[cite: 42].
-* [cite_start]**Siona Ahmed:** Simulated the circuits and co-designed individual logic blocks[cite: 43].
-* [cite_start]**Mustahsin Zarif:** Provided troubleshooting support and led the technical report writing[cite: 44].
 
-### Technical Specifications
-| Parameter | Kogge-Stone Design | Ripple-Carry (Baseline) |
+#### 2. Full 8-bit Adder Hierarchy
+[cite_start]The design uses three layers of logic to create all group-PG values efficiently for the 8-bit architecture[cite: 24].
+
+![Static 8-bit Kogge-Stone Adder](/images/full_adder_schematic.png)
+[cite_start]*Figure 2: Complete schematic of the Static 8-bit Kogge-Stone Adder.*
+
+
+
+### Performance Benchmarking
+[cite_start]The Kogge-Stone architecture outperformed our baseline Ripple-Carry Adder (RCA) by **800 MHz**[cite: 39].
+
+| Parameter | [cite_start]Kogge-Stone Design [cite: 99] | [cite_start]Ripple-Carry (Baseline) [cite: 99] |
 | :--- | :--- | :--- |
-| **Max Frequency ($f_{max}$)** | [cite_start]3.1 GHz [cite: 99] | [cite_start]2.3 GHz [cite: 99] |
-| **Power @ 1.1V** | [cite_start]$451.8\ \mu W$ [cite: 99] | [cite_start]$318.42\ \mu W$ [cite: 99] |
-| **Energy per Op** | [cite_start]$1.457 \times 10^{-13}\ J$ [cite: 99] | [cite_start]$1.39 \times 10^{-13}\ J$ [cite: 99] |
-| **Architecture** | [cite_start]Parallel Prefix (Tree) [cite: 11] | [cite_start]Sequential [cite: 14] |
+| **Max Frequency ($f_{max}$)** | 3.1 GHz | 2.3 GHz |
+| **Power @ 1.1V** | $451.8\ \mu W$ | $318.42\ \mu W$ |
+| **Energy per Op** | $1.457 \times 10^{-13}\ J$ | $1.39 \times 10^{-13}\ J$ |
+| **Critical Path Input** | $A=00000001, B=01111111$ | $A=00000001, B=11111111$ |
+
+### Simulation Results
+[cite_start]Validation was performed using transient waveform plots for over 10 input transitions to ensure correct timing behavior[cite: 40].
+
+![Simulation Waveform](/images/sim_results.png)
+[cite_start]*Figure 3: Max frequency simulation results at the critical path.*
 
 ---
-[cite_start]*This project was completed for ECE 165 at UCSD, Spring 2025[cite: 50].*
+[cite_start]**Team Members:** Luke Wilson, Siona Ahmed, and Mustahsin Zarif[cite: 42, 43, 44].
