@@ -15,8 +15,8 @@ title: Mustahsin Zarif's Portfolio # This is what shows up in the tab of the bro
 name: Zarif
 headline: Electrical engineering student at UC San Diego
 description: >- # dont remove this line. this will ignore all new lines until the next section
-  Device Development Intern at pSemi. IEEE Regional Student_Representative for Region 6. DigiKey Ambassador at UC San Diego. 
-  Experience in circuits, controls, firmware, and product engineering. Hackathon enthusiast. 
+  Device Development Intern at pSemi; IEEE Region 6 Student Representative; DigiKey Ambassador at UC San Diego; 
+  Experience in circuits, controls, firmware, and product engineering; Hardware hackathon enthusiast; 
   
 
 # Place your profile image in /assets/images/profile-image/folder and edit the file name
@@ -48,7 +48,7 @@ skills:
 
   - category: Circuit Design
     tools:
-    - Cadence Virtuoso
+    - Cadence Virtuoso, Genus, Innovus
     - LTSpice
     - SystemVerilog / Verilog
     - Vivado / Intel Quartus / Modelsim
@@ -56,7 +56,7 @@ skills:
   - category: Prototyping
     tools:
     - Arduino / ESP32 / STM32 / Raspberry Pi
-    - Breadboarding for circuit testing
+    - Breadboarding
     - Laser Cutting
     - 3D printing / Onshape
   - category: Programming
@@ -65,15 +65,10 @@ skills:
     - Python
     - HTML / CSS / Javascript
     - MATLAB
-  - category: Projet Management
-    tools:
-    - Product Development Life Cycle
-    - Kanban board
-    - Irikumi
 
 
 # Contact Form Setup. Setup an account and copy over the key. When someone fills out the form, it will be received in your email.
-# formspree-key:   https://formspree.io/f/mvgaqwwk
+formspree-key:   https://formspree.io/f/xnjjqrbk
 
 
 
