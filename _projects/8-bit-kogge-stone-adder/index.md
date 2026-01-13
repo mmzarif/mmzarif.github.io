@@ -23,6 +23,12 @@ main-image: /images/kogge_stone_main.png
 
 ### Schematic Designs
 
+#### 0. The AND, OR gates
+[cite_start]Before even designing the adder, we need to create AND and OR gates with equal pull up and pull down strengths, and use them to build a group G block[cite: 21].
+
+![PG Block Diagram](/images/group_g_and_or.png)
+[cite_start]*Figure 0: Schematic of the groujp G Block and AND and OR gates.*
+
 #### 1. The PG Block
 [cite_start]The first step in the architecture is translating input bit pairs into Propagate (P) and Generate (G) signals[cite: 22].
 
@@ -34,7 +40,7 @@ main-image: /images/kogge_stone_main.png
 #### 2. Full 8-bit Adder Hierarchy
 [cite_start]The design uses three layers of logic to create all group-PG values efficiently for the 8-bit architecture[cite: 24].
 
-![Static 8-bit Kogge-Stone Adder](/images/full_adder_schematic.png)
+![Static 8-bit Kogge-Stone Adder](/images/kogge_stone_full_schematic.png)
 [cite_start]*Figure 2: Complete schematic of the Static 8-bit Kogge-Stone Adder.*
 
 
@@ -52,7 +58,7 @@ main-image: /images/kogge_stone_main.png
 ### Simulation Results
 [cite_start]Validation was performed using transient waveform plots for over 10 input transitions to ensure correct timing behavior[cite: 40].
 
-![Simulation Waveform](/images/sim_results.png)
+![Simulation Waveform](/images/transient_response.png)
 [cite_start]*Figure 3: Max frequency simulation results at the critical path.*
 
 ---
