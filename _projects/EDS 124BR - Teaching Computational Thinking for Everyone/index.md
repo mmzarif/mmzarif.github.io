@@ -7,7 +7,7 @@ skills:
   - Computational thinking
   - Sequences
   
-main-image: /project2.jpg
+main-image: /project2.png
 ---
 
 ## Explaining how a program works
