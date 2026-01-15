@@ -26,7 +26,7 @@ The Kogge-Stone architecture was selected because its tree-based structure allow
 #### 0. The AND, OR gates
 Before even designing the adder, we need to create AND and OR gates with equal pull up and pull down strengths, and use them to build a group G block.
 
-![PG Block Diagram](/group_g_and_or.png)
+![group_g_and_or.png](/group_g_and_or.png)
 *Figure 0: Schematic of the group G Block and AND and OR gates.*
 
 #### 1. The PG Block
@@ -40,7 +40,7 @@ The first step in the architecture is translating input bit pairs into Propagate
 #### 2. Full 8-bit Adder Hierarchy
 The design uses three layers of logic to create all group-PG values efficiently for the 8-bit architecture.
 
-![Static 8-bit Kogge-Stone Adder](/kogge_stone_full_schematic.png)
+![kogge_stone_full_schematic.png](/kogge_stone_full_schematic.png)
 *Figure 2: Complete schematic of the Static 8-bit Kogge-Stone Adder.*
 
 
@@ -58,7 +58,7 @@ The Kogge-Stone architecture outperformed our baseline Ripple-Carry Adder (RCA) 
 ### Simulation Results
 Validation was performed using transient waveform plots for over 10 input transitions to ensure correct timing behavior.
 
-![Simulation Waveform](/transient_response.png)
+![transient_response.png](/transient_response.png)
 *Figure 3: Max frequency simulation results at the critical path.*
 
 ---
