@@ -7,7 +7,7 @@ skills:
 - Cadence Virtuoso
 - Static Logic Optimization
 - Performance Benchmarking
-main-image: ./kogge_stone_full_schematic.png
+main-image: /kogge_stone_full_schematic.png
 ---
 
 ## Project Overview
@@ -30,7 +30,7 @@ The Kogge-Stone architecture was selected because its tree-based structure allow
 
 Before designing the adder, we created AND and OR gates with matched pull-up and pull-down strengths and used them to construct the group-G block.
 
-![Group G Block and AND/OR gates](./group_g_and_or.png)
+![Group G Block and AND/OR gates](/group_g_and_or.png)
 
 *Figure 0: Schematic of the group-G block and matched AND/OR gates.*
 
@@ -40,7 +40,7 @@ Before designing the adder, we created AND and OR gates with matched pull-up and
 
 The first stage of the architecture translates input bit pairs into **Propagate (P)** and **Generate (G)** signals.
 
-![PG Block schematic](./pg_block.png)
+![PG Block schematic](/pg_block.png)
 
 *Figure 1: Schematic of the PG block used for initial bit translation.*
 
@@ -50,7 +50,7 @@ The first stage of the architecture translates input bit pairs into **Propagate 
 
 Three hierarchical logic layers are used to efficiently compute all group-PG values for the 8-bit architecture.
 
-![Complete 8-bit Kogge-Stone Adder](./kogge_stone_full_schematic.png)
+![Complete 8-bit Kogge-Stone Adder](/kogge_stone_full_schematic.png)
 
 *Figure 2: Complete schematic of the static 8-bit Kogge-Stone adder.*
 
@@ -73,7 +73,7 @@ The Kogge-Stone architecture outperformed the baseline Ripple-Carry Adder (RCA) 
 
 Validation was performed using transient waveform simulations across more than 10 input transitions to verify correct timing behavior at the critical path.
 
-![Transient response at critical path](./transient_response.png)
+![Transient response at critical path](/transient_response.png)
 
 *Figure 3: Maximum-frequency transient simulation results at the critical path.*
 
