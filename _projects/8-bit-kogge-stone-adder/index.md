@@ -14,13 +14,6 @@ main-image: /kogge_stone_full_schematic.png
 
 This project involved the design and simulation of a custom **8-bit Kogge-Stone adder** as part of the ECE 165: Digital Integrated Circuit Design course at UCSD. The primary challenge was to optimize speed while maintaining reasonable power levels.
 
-
-## Circuit Design
-
-Here is the circuit schematic created using DigiKey's Scheme-it:
-
-<iframe width='500' height='300' frameborder='0' scrolling='no' src='https://www.digikey.com/en/schemeit/embed/dragoneye-7d3aa2198b7d47acaef2ff4222ee7154'></iframe>
-
 ### Architecture & Design
 
 The Kogge-Stone architecture was selected because its tree-based structure allows for carry-look-ahead benefits without the high fan-in issues of large multi-bit adders.
