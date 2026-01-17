@@ -117,5 +117,3 @@ The Kogge-Stone architecture outperformed our baseline Ripple-Carry Adder (RCA) 
 
 We can finish building our dynamic approach:
 ![dynamicAdder.png](/dynamicAdder.png)
-
----
