@@ -107,13 +107,17 @@ writing the report.
 The Kogge-Stone architecture outperformed our baseline Ripple-Carry Adder (RCA) by **800 MHz**.
 
 | Parameter | Kogge-Stone Design | Ripple-Carry (Baseline) |
-| :--- | :--- | :--- |
-| **Max Frequency ($f_{max}$)** | 3.1 GHz | 2.3 GHz |
-| **Power @ 1.1V** | $451.8\ \mu W$ | $318.42\ \mu W$ |
-| **Energy per Op** | $1.457 \times 10^{-13}\ J$ | $1.39 \times 10^{-13}\ J$ |
-| **Critical Path Input** | $A=00000001, B=01111111$ | $A=00000001, B=11111111$ |
+|:---|:---|:---|
+| **Max Frequency (f_max)** | 3.1 GHz | 2.3 GHz |
+| **Power @ 1.1V** | 451.8 µW | 318.42 µW |
+| **Energy per Op** | 1.457 × 10⁻¹³ J | 1.39 × 10⁻¹³ J |
+| **Critical Path Input** | A=00000001, B=01111111 | A=00000001, B=11111111 |
 
 ## Future Improvements
 
 We can finish building our dynamic approach:
 ![dynamicAdder.png](/dynamicAdder.png)
+
+---
+
+**Team Members:** Luke Wilson, Siona Ahmed, and Mustahsin Zarif.
