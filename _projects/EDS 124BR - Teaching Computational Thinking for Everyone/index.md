@@ -12,3 +12,6 @@ main-image: /project2.png
 
 ## Explaining how a program works
 {% include youtube-video.html id="EuLTQDLMaac" autoplay="false" %}
+
+## Explaining repeat statements
+{% include youtube-video.html id="v41dlt1djbY" autoplay="false" %}
