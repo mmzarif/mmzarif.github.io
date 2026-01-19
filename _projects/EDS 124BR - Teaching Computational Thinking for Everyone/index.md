@@ -15,3 +15,6 @@ main-image: /project2.png
 
 ## Explaining repeat statements
 {% include youtube-video.html id="v41dlt1djbY" autoplay="false" %}
+
+## https://youtu.be/Oy8svOhzGPw
+{% include youtube-video.html id="Oy8svOhzGPw" autoplay="false" %}
