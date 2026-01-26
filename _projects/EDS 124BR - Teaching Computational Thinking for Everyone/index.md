@@ -23,4 +23,4 @@ main-image: /project2.png
 {% include youtube-video.html id="YixUYVN2dWU" autoplay="false" %}
 
 ## Nested repeats
-{% include youtube-video.html id="https://youtu.be/THm29Icwvjg" autoplay="false" %}
+{% include youtube-video.html id="THm29Icwvjg" autoplay="false" %}
