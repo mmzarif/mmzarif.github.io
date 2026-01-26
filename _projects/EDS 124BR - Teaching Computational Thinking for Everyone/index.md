@@ -21,3 +21,6 @@ main-image: /project2.png
 
 ## Events
 {% include youtube-video.html id="YixUYVN2dWU" autoplay="false" %}
+
+## Nested repeats
+{% include youtube-video.html id="https://youtu.be/THm29Icwvjg" autoplay="false" %}
