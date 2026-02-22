@@ -16,9 +16,6 @@ main-image: /project2.png
 ## Explaining repeat statements
 {% include youtube-video.html id="v41dlt1djbY" autoplay="false" %}
 
-## https://youtu.be/Oy8svOhzGPw
-{% include youtube-video.html id="Oy8svOhzGPw" autoplay="false" %}
-
 ## Events
 {% include youtube-video.html id="YixUYVN2dWU" autoplay="false" %}
 
@@ -31,5 +28,5 @@ main-image: /project2.png
 ## Variables
 {% include youtube-video.html id="ywwV8-PD9X8" autoplay="false" %}
 
-## Variables
+## Nested if else
 {% include youtube-video.html id="oDH4VY7AvWM" autoplay="false" %}
