@@ -30,3 +30,6 @@ main-image: /project2.png
 
 ## Nested if else
 {% include youtube-video.html id="oDH4VY7AvWM" autoplay="false" %}
+
+## Compound conditionals
+{% include youtube-video.html id="bzRl97qAlG0" autoplay="false" %}
