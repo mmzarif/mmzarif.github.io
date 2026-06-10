@@ -32,9 +32,9 @@ The project sits at the boundary between post-CTS and routing in the standard ph
 
 ```
 Floorplan → Placement → CTS → [PREDICT HERE] → Routing
-                ↑                                   ↑
-          post-CTS DEF                       post-routed DEF
-          (features)                           (labels)
+                                ↑                   ↑
+                         post-CTS DEF       post-routed DEF
+                           (features)          (labels)
 ```
 
 Features are extracted from the post-CTS DEF. Labels (actual via counts) are extracted from the post-routed DEF. A regression model is trained to map one to the other.
