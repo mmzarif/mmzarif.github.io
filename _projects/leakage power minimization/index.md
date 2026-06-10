@@ -1,148 +1,135 @@
 ---
 layout: post
-title: ML-Based Via Count Prediction for Physical Design
-description: A machine learning model that predicts post-routing via counts per net from post-CTS placement features, built using a 273,212-sample dataset generated across a 5×4 grid of floorplan utilizations and clock periods.
+title: Leakage Power Minimization Through Gate Sizing
+description: A sensitivity-based Tcl optimization script that minimizes leakage power in IC designs by swapping cells to higher threshold voltage variants, while preserving timing constraints through a two-phase global timing recovery and leakage reduction flow.
 skills:
-  - Machine learning
   - Physical design
-  - EDA automation
-  - Feature engineering
-  - Python
-  - Bash scripting
-  - DEF/SDC/Liberty
+  - EDA scripting (Tcl)
+  - Gate sizing
+  - Vt-swapping
+  - Static timing analysis
   - Siemens Aprisa
-main-image: /ml-via-count-cover.png
+  - TSMC 65GP
+main-image: /mp1-cover.png
 ---
 
 ## Project Overview
 
-Routing is the most runtime-intensive step in physical design — it can take hours per implementation. This project builds a regression model that predicts how many vias a net will need after detailed routing, using only features available at the post-CTS stage, before routing ever runs.
+Leakage power is a dominant contributor to static power consumption in modern CMOS designs, and it increases exponentially as threshold voltage (Vt) decreases. This project develops an automated Tcl optimization script that minimizes leakage power across three benchmark circuits by systematically swapping cells to higher-Vt variants on non-critical paths, while recovering timing on critical paths using lower-Vt and upsized cells where needed.
 
-If you can predict via counts early, you can flag congested nets, guide placement decisions, and sweep design parameters without paying the full routing runtime cost each time.
-
-**Design:** `aes_cipher_top` (TSMC 65GP, 65nm)  
-**Tool:** Siemens Aprisa (P&R)  
-**Target:** Minimize RMSE of predicted vs. actual per-net via count
+**Designs:** `usb_phy`, `aes_cipher_top`, `mpeg2_top`  
+**Technology:** TSMC 65GP  
+**Tool:** Siemens Aprisa (ECO flow)  
+**Library:** Triple-Vt (HVT, NVT, LVT) with 10 sizing variants per cell
 
 ---
 
-## Physical Design Flow
+## Background
 
-The project sits at the boundary between post-CTS and routing in the standard physical design flow:
+### Threshold Voltage and Leakage
+
+In a triple-Vt library, cells come in three flavors:
+
+| Variant | Vt | Speed | Leakage |
+|---------|-----|-------|---------|
+| LVT (f) | Low | Fast | High |
+| NVT (m) | Medium | Medium | Medium |
+| HVT (s) | High | Slow | Low |
+
+Leakage current increases exponentially as Vt decreases — an LVT cell can leak 5–10× more than an HVT equivalent. The optimization opportunity is to identify cells that have enough timing slack to tolerate being slowed down (swapped to HVT), then make those swaps to recover leakage without violating timing.
+
+### Sensitivity Function
+
+The core idea is to prioritize swaps by their **leakage reduction per unit of slack consumed**:
 
 ```
-Floorplan → Placement → CTS → [PREDICT HERE] → Routing
-                                ↑                   ↑
-                         post-CTS DEF       post-routed DEF
-                           (features)          (labels)
+sensitivity = ΔLeakage / |ΔWNS|
 ```
 
-Features are extracted from the post-CTS DEF. Labels (actual via counts) are extracted from the post-routed DEF. A regression model is trained to map one to the other.
+Cells with high sensitivity — large leakage savings for minimal timing impact — are swapped first. This greedy approach efficiently navigates the leakage-timing tradeoff.
 
 ---
 
-## Training Data Generation
+## Two-Phase Optimization Flow
 
-The provided data only covered 1.60 ns at three utilization levels. Since the hidden test cases vary both utilization (60–80%) and clock period (1.3–1.6 ns), training on a single clock period would leave the model unable to generalize across timing constraints.
+### Phase 1: Global Timing Recovery (GTR)
 
-To fix this, I ran Aprisa P&R across a full **5×4 grid**:
+The baseline designs start with negative WNS (setup violations). Before leakage reduction can begin, timing must be brought to a feasible region. Phase 1 iterates over violating cells and:
 
-|  | 1.30 ns | 1.40 ns | 1.50 ns | 1.60 ns |
-|--|:-------:|:-------:|:-------:|:-------:|
-| **60%** | ✓ | ✓ | ✓ | ✓ |
-| **65%** | ✓ | ✓ | ✓ | ✓ |
-| **70%** | ✓ | ✓ | ✓ | ✓ |
-| **75%** | ✓ | ✓ | ✓ | ✓ |
-| **80%** | ✓ | ✓ | ✓ | ✓ |
+1. Attempts Vt downgrade (HVT → NVT → LVT) to speed up the critical path
+2. If Vt downgrade is insufficient, upsizes the cell to a stronger drive strength variant
+3. Calls `compute_timing -full_update` after each swap to track WNS progress
+4. Stops when WNS ≥ -1ps
 
-This produced **273,212 training samples** (~13,600 nets per case).
+Starting WNS values before Phase 1:
 
-Each run patches exactly two files before launching Aprisa:
-- `scripts/proj_variables.tcl` — sets `-utilization` in `INIT_FP_OPTIONS`
-- `aes_cipher_top.sdc` — sets `-period` and the waveform half-period in `create_clock`
+| Design | Starting WNS |
+|--------|-------------|
+| `usb_phy` | -21 ps |
+| `aes_cipher_top` | -87 ps |
+| `mpeg2_top` | -96 ps |
 
-Runs execute in isolated `/tmp` directories so parallel instances never share a working database. A semaphore-based bash job pool (`MAX_JOBS=4`) runs up to 4 cases simultaneously, cutting total generation time by ~4×.
+### Phase 2: Leakage Reduction
 
----
+With timing feasible, Phase 2 greedily swaps non-critical cells toward HVT:
 
-## Feature Extraction
+1. Sort all cells by sensitivity (leakage reduction / slack impact)
+2. For each candidate cell, attempt Vt upgrade (LVT → NVT → HVT)
+3. Accept the swap if WNS remains above the guard threshold (-3ps)
+4. Reject and revert if the swap would violate the guard
+5. Repeat until no further beneficial swaps remain
 
-### Raw Features
-
-| Feature | Source | Rationale |
-|---------|--------|-----------|
-| `util` | `proj_variables.tcl` | Higher utilization → less routing room → more detours → more vias |
-| `cp` | `aes_cipher_top.sdc` | Tighter timing → router forced onto specific layers → more vias |
-| `bboxArea` | Net pin placement | Larger bounding box → longer wire → more layer transitions |
-| `bboxAr` | Net pin placement | Elongated nets force many horizontal/vertical layer changes |
-| `numPins` | Net connections | More sinks → more Steiner branches → more vias |
-
-### Engineered Features
-
-Eight additional features expose non-linear relationships that linear models miss:
-
-| Feature | Formula | Rationale |
-|---------|---------|-----------|
-| `bboxPerim` | `2*(W+H)` | Wire length scales with perimeter, not area |
-| `logBboxArea` | `log1p(bboxArea)` | Via count is sub-linear in area |
-| `pinDensity` | `numPins / bboxArea` | Crowded nets need more layer changes |
-| `numPins²` | `numPins²` | High-fanout cost is super-linear |
-| `areaPins` | `bboxArea × numPins` | Large high-fanout nets are disproportionately expensive |
-| `util × cp` | `util × cp` | Joint effect of density and timing pressure |
-| `√bboxArea` | `sqrt(bboxArea)` | Direct wire length proxy |
-| `bboxAr × numPins` | `bboxAr × numPins` | Elongated multi-sink nets force many layer transitions |
-
-The DEF parser handles gzip-compressed files automatically — Aprisa outputs compressed DEFs despite a plain `.def` extension.
+The -3ps guard provides margin against post-ECO timing degradation, which was measured at approximately 6-7ps in practice.
 
 ---
 
-## Model Selection — Ablation Study
+## Implementation
 
-Six model variants were evaluated using 5-fold cross-validation on the full training set:
+The script is written entirely in Aprisa Tcl and uses the following key API calls:
 
-| Model | CV RMSE |
-|-------|:-------:|
-| LinearRegression (raw features) | 4.14 |
-| LinearRegression (engineered features) | 3.94 |
-| Ridge Regression (engineered features) | 3.94 |
-| GradientBoosting (raw, depth=3) | 3.85 |
-| **GradientBoosting (engineered, depth=4)** | **3.84** ✓ |
-| RandomForest (engineered features) | 3.95 |
+| API | Purpose |
+|-----|---------|
+| `ApWorstSlack clk` | Get current WNS |
+| `ApCellSlack inst` | Get per-cell slack |
+| `ApCellLeak inst` | Get per-cell leakage |
+| `ApSwapCell inst cell` | Perform cell swap |
+| `getNextVtUp / getNextVtDown` | Navigate Vt variants |
+| `getNextSizeUp / getNextSizeDown` | Navigate size variants |
+| `sortCells` | Sort instance list by attribute |
+| `compute_timing -full_update` | Recompute timing after swap |
 
-**Selected model:** `GradientBoostingRegressor`  
-**Hyperparameters:** `n_estimators=400, max_depth=4, learning_rate=0.08, subsample=0.8, min_samples_leaf=20`
-
-### Key Findings
-
-1. Feature engineering reduced RMSE by **4.7%** on linear models (4.14 → 3.94), confirming the geometry-to-via relationship is non-linear
-2. Switching to GradientBoosting on raw features reduced RMSE further (3.94 → 3.85), showing trees capture interactions linear models miss
-3. Combining GradientBoosting with engineered features achieved the best result (3.84)
-4. RandomForest underperformed GradientBoosting because sequential boosting corrects systematic residuals more effectively than averaging
+A custom `RecoverTimingFast` procedure was written to replace the built-in `RecoverTiming`, which iterated Vt in HVT-first order (wrong for timing recovery) and called `compute_timing` on every single attempt regardless of outcome. The custom version iterates LVT-first and batches timing updates, significantly reducing runtime.
 
 ---
 
 ## Results
 
-| Dataset | Utilization | Clock Period | RMSE |
-|---------|:-----------:|:------------:|:----:|
-| Training | 60% | 1.60 ns | 5.25 |
-| Training | 70% | 1.60 ns | 6.09 |
-| Training | 80% | 1.60 ns | 5.52 |
-| **RMSE_1 (sum)** | | | **16.87** |
-| Open Test | 65% | 1.60 ns | 4.94 |
-| Open Test | 75% | 1.60 ns | 4.33 |
-| **RMSE_2 (sum)** | | | **9.27** |
-| **Metric 2 = RMSE_1 + RMSE_2** | | | **26.14** |
+### usb_phy
 
-The open test cases (65%, 75%) achieve lower RMSE than the training cases, confirming the model generalizes well to utilization values it was not directly trained on at 1.60 ns.
+| Metric | Before | After |
+|--------|--------|-------|
+| Leakage Power | baseline | **9.137% reduction** |
+| WNS | -21 ps | -9.870 ps |
+
+The leakage reduction was achieved while keeping WNS within the acceptable timing penalty tier for grading. The -3ps guard threshold for Phase 2 was set based on empirical observation of ~6-7ps post-ECO timing degradation on this design.
+
+---
+
+## Key Implementation Challenges
+
+**`getNextVtUp` / `getNextVtDown` behavior at limits** — these functions return the same cell name rather than a sentinel value when no further Vt variants exist. Explicit `ne ""` guards and same-name checks are required in while loops to avoid infinite loops.
+
+**`ApCellSlack` takes only instance name** — no clock argument is accepted, unlike some other timing API calls. Passing a clock argument causes a silent error.
+
+**`get_ta_paths -slack_lesser_than` is unsupported in Aprisa** — this flag exists in other EDA tools but not in Aprisa. Timing-critical cell filtering must be done by querying `ApCellSlack` per cell instead.
+
+**`ap_cmds.tcl` must be sourced first** — the helper procs (`getNextVtUp`, `sortCells`, etc.) are defined in `ap_cmds.tcl`, which is loaded by `run_eco.tcl` before `size.tcl` is called. Running `size.tcl` standalone without sourcing `ap_cmds.tcl` first results in undefined procedure errors.
 
 ---
 
 ## Future Improvements
 
-Adding congestion map features extracted from the post-CTS DEF would likely reduce RMSE significantly — congestion is one of the strongest predictors of routing difficulty but was not available in the base feature set. Timing criticality (slack per net) would also be a strong addition, as timing-critical nets tend to be routed on preferred layers with more via stacks.
-
-Training on additional clock periods between 1.3 and 1.6 ns (e.g., 1.35, 1.45, 1.55) would improve interpolation accuracy for the hidden test cases in that range.
+Extending the sensitivity function to account for fanout would improve swap ordering — high-fanout cells have disproportionate timing impact and should be penalized more heavily in the sensitivity calculation. Adding a hold-timing check after each swap would also prevent the optimization from inadvertently introducing hold violations on paths that gain slack during the leakage reduction phase.
 
 ---
 
