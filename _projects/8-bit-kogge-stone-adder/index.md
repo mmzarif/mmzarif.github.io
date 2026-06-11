@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 8-bit Kogge-Stone Adder Design
-description: A light-sensitive display project that shows Big Brother's eye from George Orwell's "1984" when darkness is detected. This project combines analog circuits with Arduino programming to create an automatic display system using transistors, photoresistors, and LCD technology.
+description: Custom digital IC design of an 8-bit adder built for low power and high speed in 45nm technology node.
 skills: 
   - Circuit design
   - Analog electronics
