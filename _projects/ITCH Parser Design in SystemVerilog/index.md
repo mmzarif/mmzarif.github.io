@@ -120,7 +120,7 @@ Test_vectors.hex:
 55 03 00 00 00 03 41 00 00 03 E8 00 00 00 64 CD
 ```
 
-{% include image-gallery.html images="itch-simulation-waveform.png" height="400" %}
+![itch-simulation-waveform.png](/_projects/ITCH Parser Design in SystemVerilog/itch-simulation-waveform.png)
 
 Upon inspection in a simulation tool, we can conclude that the waveform shows expected behavior to our parser design!
 
