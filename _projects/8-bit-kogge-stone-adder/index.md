@@ -89,19 +89,19 @@ writing the report.
 
 ### Top: Group-G Block, Bottom-left: AND, Bottom-right, OR
 
-![groupGAndOr.png](/groupGAndOr.png)
+![Group G and OR](/_projects/8-bit-kogge-stone-adder/groupGAndOr.png)
 
 ### PG Block
 
-![pgBlock.png](/pgBlock.png)
+![pgBlock.png](/_projects/8-bit-kogge-stone-adder/pgBlock.png)
 
 ### Static 8-bit Kogge-Stone Adder
 
-![koggeStoneFullSchematic.png](/koggeStoneFullSchematic.png)
+![koggeStoneFullSchematic.png](/_projects/8-bit-kogge-stone-adder/koggeStoneFullSchematic.png)
 
 ### Max Frequency Simulation results at critical Path
 
-![transientResponse.png](/transientResponse.png)
+![transientResponse.png](/_projects/8-bit-kogge-stone-adder/transientResponse.png)
 
 ## Performance Benchmarking
 The Kogge-Stone architecture outperformed our baseline Ripple-Carry Adder (RCA) by **800 MHz**.
@@ -116,7 +116,7 @@ The Kogge-Stone architecture outperformed our baseline Ripple-Carry Adder (RCA) 
 ## Future Improvements
 
 We can finish building our dynamic approach:
-![dynamicAdder.png](/dynamicAdder.png)
+![dynamicAdder.png](/_projects/8-bit-kogge-stone-adder/dynamicAdder.png)
 
 ---
 
