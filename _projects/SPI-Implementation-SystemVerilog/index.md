@@ -83,7 +83,7 @@ This design uses a **Moore-style FSM** with three states:
 
 Simulation was performed using **ModelSim**. The testbench sends a single byte `0x3C` (binary `00111100`) to the slave.
 
-![waveform](/waveform.png)
+![waveform](/_projects/SPI-Implementation-SystemVerilog/waveform.png)
 
 ### Results:
 
