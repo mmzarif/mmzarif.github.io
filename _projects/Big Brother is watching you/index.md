@@ -54,10 +54,10 @@ With the schematic complete, here are the parts needed from DigiKey:
 With the parts, we can set up the circuit on a breadboard and program the Arduino using the code in my GitHub repository. Finally, after adjusting the value of the photoresistor, we can see the results:
 
 ### In bright light: screen off
-![eye-bright-light.png](/eye-bright-light.png)
+![eye-bright-light.png](/_projects/Big Brother is watching you/eye-bright-light.png)
 
 ### In the dark: screen on
-![eye-in-dark-on.png](/eye-in-dark-on.png)
+![eye-in-dark-on.png](/_projects/Big Brother is watching you/eye-in-dark-on.png)
 
 ## Demonstration
 
