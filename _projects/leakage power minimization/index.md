@@ -11,7 +11,7 @@ skills:
   - Static timing analysis
   - Siemens Aprisa
   - TSMC 65GP
-main-image: /mp1-cover.png
+main-image: https://images.unsplash.com/photo-1587845323226-bad89242c735?fm=jpg&q=80&w=1600&auto=format&fit=crop
 ---
 
 ## Project Overview
