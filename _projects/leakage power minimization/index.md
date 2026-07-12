@@ -5,7 +5,7 @@ date: 2026-06-10
 description: A sensitivity-based Tcl optimization script that minimizes leakage power in IC designs by swapping cells to higher threshold voltage variants, while preserving timing constraints through a two-phase global timing recovery and leakage reduction flow.
 skills:
   - Physical design
-  - EDA scripting (Tcl)
+  - Tcl scripting
   - Gate sizing
   - Vt-swapping
   - Static timing analysis
