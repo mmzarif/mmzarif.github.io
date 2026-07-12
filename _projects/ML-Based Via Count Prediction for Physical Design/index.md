@@ -12,7 +12,7 @@ skills:
   - Bash scripting
   - DEF/SDC/Liberty
   - Siemens Aprisa
-main-image: /ml-via-count-cover.png
+main-image: https://images.unsplash.com/photo-1672307613484-3254a04651fd?fm=jpg&q=80&w=1600&auto=format&fit=crop
 ---
 
 ## Project Overview
