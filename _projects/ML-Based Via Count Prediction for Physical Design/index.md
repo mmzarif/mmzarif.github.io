@@ -17,9 +17,9 @@ main-image: /ml-via-count-cover.png
 
 ## Project Overview
 
-Routing is the most runtime-intensive step in physical design — it can take hours per implementation. This project builds a regression model that predicts how many vias a net will need after detailed routing, using only features available at the post-CTS stage, before routing ever runs.
+Routing optimization is the most runtime-intensive step in physical design — it can take hours per implementation. This project builds a regression model that predicts how many vias a net will need after detailed routing, using only features available at the post-CTS stage, before routing ever runs.
 
-If you can predict via counts early, you can flag congested nets, guide placement decisions, and sweep design parameters without paying the full routing runtime cost each time.
+If we can predict via counts early, we can flag congested nets, guide placement decisions, and sweep design parameters without paying the full routing runtime cost each time.
 
 **Design:** `aes_cipher_top` (TSMC 65GP, 65nm)  
 **Tool:** Siemens Aprisa (P&R)  
