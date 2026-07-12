@@ -37,7 +37,7 @@ external-links:    # input only your own url slug. The icons with missing entrie
   threads:            # https://threads.net/@{your url slug} 
   instragram:       # https://instagram.com/{your url slug} 
   youtube:           # https://youtube.com/@{your url slug} 
-  discord: emptymiracles           # https://discord.com/users/{your url slug} 
+  discord: 871194746465435650           # https://discord.com/users/{your url slug} 
   bluesky:           # https://bsky.app/profile/{your url slug} 
   digikey: 7b2c153d77314b56bd4664b40d38511c          # https://www.digikey.com/en/maker/profiles/{your url slug} 
   
