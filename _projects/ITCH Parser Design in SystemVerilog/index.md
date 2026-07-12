@@ -1,6 +1,7 @@
 ---
 layout: post
 title: ITCH Parser Design in SystemVerilog
+date: 2025-08-31
 description: A low-latency market data feed handler designed in SystemVerilog for FPGA implementation. This project demonstrates finite state machine design and high-frequency trading protocols by parsing ITCH messages containing stock order information including message type, stock ID, order details, and pricing data.
 skills: 
   - SystemVerilog

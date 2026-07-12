@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Parameterized FIFO supporting circular buffering, overflow protection, and simulation-based verification in Vivado
+date: 2025-08-06
 description:  First In, First Out memory buffer RTL design
 skills: 
 - SystemVerilog

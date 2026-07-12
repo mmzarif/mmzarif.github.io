@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Digital Oscilloscope
+date: 2025-07-12
 description:  Low cost, portable digital oscilloscope with 10 bit resolution built using an Arduino Uno, potentiometer, and push buttons.
 skills: 
 - Arduino

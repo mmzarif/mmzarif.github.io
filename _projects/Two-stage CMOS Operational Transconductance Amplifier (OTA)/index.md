@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Two-Stage CMOS Operational Transconductance Amplifier (OTA)
+date: 2026-06-11
 description: Two-stage 180nm CMOS OTA sized in Cadence Virtuoso using gm/ID methodology, frequency compensation, and transistor-level optimization to achieve high gain, stability, and bandwidth.
 skills:
   - Analog IC Design

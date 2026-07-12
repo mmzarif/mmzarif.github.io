@@ -1,6 +1,7 @@
 ---
 layout: post
 title: SPI Peripheral design in SystemVerilog
+date: 2025-06-28
 description: Simple SPI slave implementation in SystemVerilog that supports single-byte (8-bit) SPI communication. It is designed to work with SPI Mode 0 (CPOL = 0, CPHA = 0), and can be simulated using ModelSim and synthesized in Quartus.
 skills: 
 - Digital design

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: ML-Based Via Count Prediction for Physical Design
+date: 2026-06-10
 description: A machine learning model that predicts post-routing via counts per net from post-CTS placement features, built using a 273,212-sample dataset generated across a 5×4 grid of floorplan utilizations and clock periods.
 skills:
   - Machine learning

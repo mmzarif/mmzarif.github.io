@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 8-bit Kogge-Stone Adder Design
+date: 2026-01-13
 description: Custom digital IC design of an 8-bit adder built for low power and high speed in 45nm technology node.
 skills: 
   - Circuit design
