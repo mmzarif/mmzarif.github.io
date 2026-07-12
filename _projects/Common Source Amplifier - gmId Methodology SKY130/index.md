@@ -7,10 +7,12 @@ skills:
   - Analog IC Design
   - Cadence Virtuoso
   - gm/Id Methodology
+  - Open-Source PDK
   - SKY130 PDK
   - SPICE Simulation
   - Common Source Amplifier
-  - Open-Source EDA
+  - Current Mirror
+  - Active Load
 main-image: /schematic.png
 ---
 
@@ -32,7 +34,7 @@ This holds up reasonably well for hand calculations, but as device dimensions sh
 
 Because of this deviation, sizing directly from the square law becomes unreliable, so this design instead uses the **gm/Id methodology**: pre-characterizing the transistor's gm/Id, gm/gds, and transit frequency across bias points, then using those lookup tables to size devices with far fewer simulation iterations.
 
-For the SKY130 PDK, the lookup tables were generated using [Open-LUT](http://www.open-lut.org), an interactive web-based gm/Id lookup tool. All designs use a minimum channel length of 150nm, above the 130nm process floor, to leave margin for manufacturing error.
+For the SKY130 PDK, the lookup tables are available at [Open-LUT](http://www.open-lut.org), an interactive web-based gm/Id lookup tool. All designs use a minimum channel length of 150nm, above the 130nm process floor, to leave margin for manufacturing error.
 
 {% include image-gallery.html images="open-lut-tables.png" height="380" %}
 
@@ -56,9 +58,9 @@ and the bandwidth (dominant pole, single-stage) reduces to:
 
 ## Design Goals & Parameter Selection
 
-**Target specs:** 25dB DC gain, 60MHz unity-gain bandwidth, 2pF load, output biased at 0.9V DC.
+**Target specs:** 25dB (17.7 V/V) DC gain, 60MHz unity-gain bandwidth, 2pF load, output biased at 0.9V DC.
 
-To leave margin for second-order effects, the design target was pushed to 27dB (17.7 V/V) of gain and 66MHz of bandwidth.
+To leave margin for second-order effects, the design target was pushed to 18 V/V of gain and 66MHz of bandwidth.
 
 From the bandwidth equation: `gm = 66MHz × 2π × 2pF ≈ 0.829mS`
 
@@ -66,7 +68,7 @@ Setting `gds_n = gds_p` for the target gain gives `gds ≈ 23.04µS`, i.e. a `gm
 
 To keep the device in strong inversion (`V_ov > 150mV`), a `gm/Id` of 7 was chosen.
 
-Using Open-LUT with these constraints — plugging in `V_ds`, `gm`, `gds`, `gm/gds`, and `gm/Id` — populates the full sizing table. For the PMOS, `Id` was matched to the NMOS value (118.5µA) since a 1:1 current mirror and ideal current source were assumed, so the table-provided `V_GS` wasn't needed directly.
+Using Open-LUT with these constraints — plugging in `V_ds`, `gm`, `gds`, `gm/gds`, and `gm/Id` — populates the full sizing table. For the PMOS, `Id` was matched to the NMOS value (118.5µA); a 1:1 current mirror and ideal current source were used, so the table-provided `V_SG` wasn't needed directly.
 
 {% include image-gallery.html images="nmos-parameters.png, pmos-parameters.png" height="320" %}
 
@@ -78,7 +80,7 @@ Using Open-LUT with these constraints — plugging in `V_ds`, `gm`, `gds`, `gm/g
 
 {% include image-gallery.html images="bode-plot-not-met.png" height="380" %}
 
-**Fix — upsize channel length.** Scaling up the NMOS channel length (while scaling the PMOS proportionally to preserve the W/L ratio and bias current) increases output resistance and gain. It does move the dominant pole slightly, since gate capacitance grows with L, but simulation showed enough margin to absorb it. The final sizing used a 4µm/265nm W/L ratio, which met both targets.
+**Fix — upsize channel length.** Scaling up the NMOS channel length (while scaling the PMOS proportionally to preserve the W/L ratio and bias current) increases output resistance and gain. It does move the dominant pole slightly closer, since gate capacitance grows with L, but simulation showed enough margin to absorb it. The final sizing used a 4µm/265nm W/L ratio, which met both targets.
 
 {% include image-gallery.html images="bode-plot-met.png" height="380" %}
 
@@ -86,7 +88,7 @@ Using Open-LUT with these constraints — plugging in `V_ds`, `gm`, `gds`, `gm/g
 
 ## Conclusion
 
-The square law is a reasonable starting point for understanding MOSFET behavior, but it isn't sufficient for *designing* real circuits — channel length modulation and inversion level both shift `gm/Id` away from the ideal `2/V_ov` relationship as devices scale down. The gm/Id methodology, backed by a pre-characterized lookup table like Open-LUT, gives a much more direct path from spec to transistor sizing — hitting the target in essentially one iteration rather than by trial-and-error simulation sweeps.
+The square law is a reasonable starting point for understanding MOSFET behavior, but it isn't sufficient for *designing* real circuits — channel length modulation and inversion level both shift `gm/Id` away from the ideal `2/V_ov` relationship as devices scale down. The gm/Id methodology, backed by a pre-characterized lookup table like Open-LUT, gives a much more direct path from spec to transistor sizing — hitting the target in fewer iterations rather than by being a 'SPICE monkey.'
 
 ---
 
