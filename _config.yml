@@ -48,10 +48,10 @@ skills:
   - category: Circuit Design
     tools:
     - Cadence Virtuoso, Genus, Innovus
+    - Siemens Aprisa, Solido, mPower, Calibre
     - LTSpice
     - SystemVerilog / Verilog
     - Vivado / Intel Quartus / Modelsim
-    - Eagle / KiCad
   - category: Prototyping
     tools:
     - Arduino / ESP32 / STM32 / Raspberry Pi
@@ -60,6 +60,7 @@ skills:
     - 3D printing / Onshape
   - category: Programming
     tools:
+    - Linux, Git, Docker
     - C / C++ 
     - Python
     - HTML / CSS / Javascript
