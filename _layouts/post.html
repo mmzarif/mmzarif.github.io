@@ -7,7 +7,11 @@ layout: wrapper
         
        
         {% assign folder_path = page.path | split: "/" | slice: 0, 2 | join: "/" %}
-        {% assign image_path = "/" | append: folder_path | append: page['main-image'] %}       
+        {% if page['main-image'] contains 'http' %}
+            {% assign image_path = page['main-image'] %}
+        {% else %}
+            {% assign image_path = "/" | append: folder_path | append: page['main-image'] %}
+        {% endif %}
         <img src="{{ image_path }}" alt="{{ page.title }} image">
         
         <div class="title-header">
