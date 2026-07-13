@@ -314,7 +314,7 @@ nav .mobile-nav {
 .project-card img {
     width: 100%; 
     max-width: 100%; 
-    aspect-ratio: 3/1;
+    aspect-ratio: 16/9;
     object-fit: cover;
     display: block;
     border-radius: 6px;
@@ -596,7 +596,7 @@ footer p {
     height: 100%;  /* Changed to 100% to fill the container */
     object-fit: cover;
     border-radius: 6px;
-    aspect-ratio: 3/1;
+    aspect-ratio: 16/9;
     margin-bottom: 10px;
 }
 
