@@ -16,7 +16,7 @@
               src="/{{ folder_path }}/{{ image_name }}" 
               alt="{{ image_name }}"
               loading="lazy"
-              onerror="this.onerror=null;this.src=this.src.replace('.webp','.png').replace('.png','.webp');"
+              onerror="this.onerror=null;this.src=this.src.endsWith('.png')?this.src.replace('.png','.webp'):this.src.replace('.webp','.png');"
           />
       {% endif %}
   {% endfor %}

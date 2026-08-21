@@ -7,7 +7,7 @@
                 I'm {{ site.name | split: ' ' | first }} 
                 {% if site.external-links %}
                 <span class="external-links">
-                    {% assign platforms = "linkedin,x-twitter,github,stackoverflow,discord,medium,threads,bluesky,instagram,youtube" | split: "," %}
+                    {% assign platforms = "linkedin,x-twitter,github,stackoverflow,discord,medium,threads,bluesky,instagram,youtube,digikey" | split: "," %}
                     {% for platform in platforms %}
                         {% if site.external-links[platform] %}
                             {% case platform %}
@@ -61,6 +61,11 @@
                                     <i class="fa-brands fa-youtube"></i>
                                 </a>
 
+                            {% when 'digikey' %}
+                                <a href="https://www.digikey.com/en/maker/profiles/{{ site.external-links[platform] }}/" target="_blank">
+                                    <i class="fa-solid fa-microchip"></i>
+                                </a>
+
                             {% endcase %}
                         {% endif %}
                     {% endfor %}
@@ -87,7 +92,7 @@
             
         </div>
         <div class="headshot">
-            <img src= {{site.profile_image}} alt="Mustahsin Zarif headshot">       
+            <img src="{{ site.profile_image | relative_url }}" alt="Mustahsin Zarif headshot">
         </div>
     </div>
     
