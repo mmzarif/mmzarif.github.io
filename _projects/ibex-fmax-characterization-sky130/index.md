@@ -2,7 +2,7 @@
 layout: post
 title: Estimating the Max Clock Frequency of a RISC-V Core (Ibex) on SKY130
 date: 2026-08-06
-description: A pre-layout fmax characterization of the lowRISC Ibex RISC-V core synthesized to SKY130 with Cadence Genus, using a binary search on the clock period and two clock-uncertainty assumptions to bracket where the design's real silicon frequency will land.
+description: A pre-PnR fmax characterization of the lowRISC Ibex RISC-V core synthesized with Cadence Genus and SKY130 PDK, using a binary search on the clock period and two clock-uncertainty assumptions to bracket where the design's real silicon maximum frequency will land.
 skills:
   - Physical design
   - Static timing analysis
@@ -17,15 +17,18 @@ main-image: https://images.unsplash.com/photo-1518770660439-4636190af475?fm=jpg&
 
 ## Project Overview
 
-Here's a thing that tripped me up when I first started doing digital design: you can write RTL at whatever clock frequency you want. Nothing in your SystemVerilog stops you from constraining a design to 2GHz. But the RTL is a lie in one specific sense — the *actual* speed the design can run at in silicon is set by the technology node it's built on, not by the number you typed into your SDC file. So the question I wanted to answer was: **given a design and a tech node, what is the maximum clock frequency this thing can actually hit?**
+Here's a thing that tripped me up when I first started doing the physical design flow from scratch: anyone can write RTL at whatever clock frequency they want. Nothing in your SystemVerilog code stops you from running your design at an imaginary high speed. However, while the RTL may pass in simulation, the *actual* speed the design can run at in silicon is set by the technology node it's built on. Hence, the question I wanted to answer was this: **given a (random) design and a tech node, what is the maximum clock frequency the design can actually operate at?**
 
-You can't know this at the RTL level. And in my case there's a second wrinkle — I'm targeting the open-source **SKY130** process, but the Ibex RTL wasn't written for SKY130, so I can't just look up a published number for it either. The way to get an honest estimate is to **synthesize the RTL down to a gate-level netlist**, because once every logic gate is mapped to a real SKY130 standard cell, Genus (or Innovus later) can produce a timing report from the cell delays in the liberty file. That timing report is what tells me whether a given clock period is actually achievable.
+The design I was working on when this question hit me was the [Ibex RISC-V CPU core](https://github.com/lowRISC/ibex), which is an open source design. While there is a performance metric listed on the Github, it's not originally designed for the SKY130 PDK that I use. Obviously, I could not just guess the performance for my node by looking at the RTL, but I also did not want to run the whole PnR flow at multiple frequencies since that would take up a lot of time. As such, the fastest way to get an honest estimate was to **synthesize the RTL down to a gate-level netlist**, because once every logic gate is mapped to a real SKY130 standard cell, Genus can produce a timing report using the liberty file (which calculates cell delays using input slew and output capacitance). That timing report is what will tell us whether a given clock period is actually achievable.
 
-So the plan was: **binary search** the clock period between a frequency I know passes and one I know fails, resynthesizing at each step, until the two converge on the fastest period that still meets timing. And because this is a pre-layout estimate with no real clock tree yet, I ran the whole search twice under two different **clock uncertainty** assumptions — one optimistic, one conservative — to bracket where the real number will land once jitter and skew show up for real.
+So the plan was: **binary search** the clock period between a frequency I know will pass and one I know will fail, resynthesizing at each step, until the two converge on the fastest period that still meets timing. Additionally, because this is a pre-PnR estimate with no real clock tree yet, I ran the whole search twice with two different **clock uncertainty** assumptions — one optimistic (0.15ns) and one conservative (0.3ns) — to narrow down where the real number will land once jitter and skew show up for real post clock tree synthesis.
 
-**Design:** `ibex_core` (lowRISC Ibex, [github.com/lowRISC/ibex](https://github.com/lowRISC/ibex)), "small" config
-**Process / library:** SKY130, Cadence SCL 9-track (`sky130_scl_9T_0.0.5`)
-**Corner:** `tt_1.8_25` (typical-typical, 1.8V, 25°C)
+**Design:** `ibex_core` (lowRISC Ibex, [github.com/lowRISC/ibex](https://github.com/lowRISC/ibex)), "small" config.
+
+**Process / library:** SKY130, Cadence SCL 9-track (`sky130_scl_9T_0.0.5`).
+
+**Corner:** `tt_1.8_25` (typical-typical, 1.8V, 25°C).
+
 **Tool:** Cadence Genus 23.12
 
 ---
@@ -43,40 +46,43 @@ Static timing analysis (STA) checks every path between two flip-flops and asks w
 
 Positive slack means the path met timing; negative means it violated. The important detail is that **clock uncertainty only eats into Required Time — it never touches Arrival Time.** It doesn't make the circuit slower; it shrinks the budget the circuit is allowed to spend.
 
-So what is clock uncertainty? Pre-layout, there is no real clock tree yet, which means two effects can't be measured:
+So what is clock uncertainty? Pre-PnR, there is no real clock tree yet, which means two effects can't be measured:
 
-- **Jitter** — cycle-to-cycle wobble in the clock edge (temporal).
-- **Skew** — the arrival-time difference between two flops caused by an imbalanced clock tree (spatial).
+- **Jitter:** cycle-to-cycle wobble in the clock edge (temporal).
+- **Skew:** the arrival-time difference between two flops caused by an imbalanced clock tree (spatial).
 
-`clock_uncertainty` is a single placeholder number that stands in for both of these until a real clock tree exists. Which value you pick is a guess — and the entire point of this project is to show how much that guess matters.
+`clock_uncertainty` is a single placeholder number that stands in for both of these until a real clock tree exists. Which value we pick is a guess, and a big point of this project is to show how much that guess matters.
 
 ---
 
 ## Methodology
 
-**Binary search on the clock period.** The search is bracketed by two bounds: one period known to **PASS** with comfortable slack, and one known to **FAIL**. I resynthesize at the midpoint, check worst-case slack, and use the result to replace whichever bound the midpoint beat — pass → new lower bound, fail → new upper bound — repeating until the bracket closes to below 0.1ns.
+### **Binary search on the clock period** 
+The search is bracketed by two bounds: one period known to **PASS** with comfortable slack, and one known to **FAIL**. I resynthesize at the midpoint, check worst-case slack, and use the result to replace whichever bound the midpoint beat — pass → new lower bound, fail → new upper bound — repeating until the bracket closes to below 0.1ns.
 
-**Full resynthesis at every step.** Each candidate period is run through the entire `syn_generic → syn_map → syn_opt` flow, not just re-timed against an already-mapped netlist. This matters: gate sizing and technology-mapping decisions depend on the target frequency, so re-timing an old netlist would give a dishonest answer. It's the technically correct approach, and it's slow — the full sweep took about two hours.
+### **Full resynthesis at every step** 
+Each candidate period is run through the entire `syn_generic → syn_map → syn_opt` flow, not just re-timed against an already-mapped netlist. This matters: gate sizing and technology mapping decisions depend on the target frequency, so re-timing an old netlist would give a dishonest answer. It's the technically correct approach, which is why it's slow; the full sweep took about two hours.
 
-**Two sweeps, one variable.** The only thing that changed between the two runs was `clock_uncertainty`:
+### **Two sweeps, one variable** 
+The only thing that changed between the two runs was `clock_uncertainty`:
 
 | Sweep | Clock uncertainty | Stance |
 |---|---|---|
 | A | 0.15 ns | Optimistic |
 | B | 0.30 ns | Conservative |
 
-The fixed SDC assumptions held constant across everything — 0.1ns clock transition, 1.5ns input/output delay, INVX4 driving cell, 0.5ns max transition, async reset treated as a false path.
+The fixed Synonpsys Design Constraint (SDC) assumptions held constant across everything: 0.1ns clock transition, 1.5ns input/output delay, INVX4 driving cell, 0.5ns max transition, async reset treated as a false path.
 
 ---
 
 ## Results
 
-### Sweep A — optimistic (0.15ns uncertainty)
+### Sweep A (0.15ns uncertainty)
 
 | Iteration | Period (ns) | Freq (MHz) | Worst Slack (ps) | Status |
 |---|---|---|---|---|
-| bound_LOW | 2.0 | 500.00 | −3531 | FAIL |
-| bound_HIGH | 20.0 | 50.00 | 6466 | PASS |
+| Lower bound | 2.0 | 500.00 | −3531 | FAIL |
+| Upper bound | 20.0 | 50.00 | 6466 | PASS |
 | 1 | 11.000 | 90.91 | 1 | PASS |
 | 2 | 6.500 | 153.85 | 0 | PASS |
 | 3 | 4.250 | 235.29 | −1355 | FAIL |
@@ -94,8 +100,8 @@ For this sweep I reused bounds from prior data instead of retesting from scratch
 
 | Iteration | Period (ns) | Freq (MHz) | Worst Slack (ps) | Status |
 |---|---|---|---|---|
-| bound_LOW (reused) | 5.556 | 179.99 | −114 | FAIL |
-| bound_HIGH (assumed) | 20.0 | 50.00 | >6316 (est.) | PASS |
+| Lower bound (reused) | 5.556 | 179.99 | −114 | FAIL |
+| Upper bound (assumed) | 20.0 | 50.00 | >6316 (est.) | PASS |
 | 1 | 12.778 | 78.26 | 10 | PASS |
 | 2 | 9.167 | 109.09 | 0 | PASS |
 | 3 | 7.361 | 135.85 | 0 | PASS |
