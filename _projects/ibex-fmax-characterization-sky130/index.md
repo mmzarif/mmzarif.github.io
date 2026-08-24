@@ -19,7 +19,7 @@ main-image: https://images.unsplash.com/photo-1518770660439-4636190af475?fm=jpg&
 
 Here's a thing that tripped me up when I first started doing the physical design flow from scratch: anyone can write RTL at whatever clock frequency they want. Nothing in your SystemVerilog code stops you from running your design at an imaginary high speed. However, while the RTL may pass in simulation, the *actual* speed the design can run at in silicon is set by the technology node it's built on. Hence, the question I wanted to answer was this: **given a (random) design and a tech node, what is the maximum clock frequency the design can actually operate at?**
 
-The design I was working on when this question hit me was the [Ibex RISC-V CPU core](https://github.com/lowRISC/ibex), which is an open source design. While there is a performance metric listed on the Github, it's not originally designed for the SKY130 PDK that I use. Obviously, I could not just guess the performance for my node by looking at the RTL, but I also did not want to run the whole PnR flow at multiple frequencies since that would take up a lot of time. As such, the fastest way to get an honest estimate was to **synthesize the RTL down to a gate-level netlist**, because once every logic gate is mapped to a real SKY130 standard cell, Genus can produce a timing report using the liberty file (which calculates cell delays using input slew and output capacitance). That timing report is what will tell us whether a given clock period is actually achievable.
+The design I was working on when this question hit me was the [Ibex RISC-V CPU core](https://github.com/lowRISC/ibex), which is an open source design. While there is a performance metric listed on the Github, it's not originally designed for the SKY130 PDK that I use. Obviously, I could not just guess the performance for my node by looking at the RTL, but I also did not want to run the whole PnR flow at multiple frequencies since that would take up a lot of time. As such, the fastest way to get an honest estimate was to **synthesize the RTL down to a gate-level netlist**, because once every logic gate is mapped to a real SKY130 standard cell, Genus can produce a timing report using the liberty file (which calculates cell delays using input slew and output capacitance via Non-Linear Delay Model lookup tables). That timing report is what will tell us whether a given clock period is actually achievable.
 
 So the plan was: **binary search** the clock period between a frequency I know will pass and one I know will fail, resynthesizing at each step, until the two converge on the fastest period that still meets timing. Additionally, because this is a pre-PnR estimate with no real clock tree yet, I ran the whole search twice with two different **clock uncertainty** assumptions — one optimistic (0.15ns) and one conservative (0.3ns) — to narrow down where the real number will land once jitter and skew show up for real post clock tree synthesis.
 
@@ -29,7 +29,7 @@ So the plan was: **binary search** the clock period between a frequency I know w
 
 **Corner:** typical-typical, 1.8V, 25°C
 
-**Tool:** Cadence Genus 23.12
+**Tool:** Cadence Genus
 
 ---
 

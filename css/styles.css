@@ -606,6 +606,12 @@ footer p {
     margin-bottom: 10px;
 }
 
+.post-view .summary .project-description p,
+.post-view .content p,
+.post-view .content li {
+    font-size: 1rem;
+}
+
 .post-view .summary .skills-card {
     display: flex;
     flex-direction: column;
@@ -948,4 +954,3 @@ footer p {
 
       
 }
-
