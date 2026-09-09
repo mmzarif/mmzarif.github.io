@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Leakage Power Minimization Through Gate Sizing
+title: Leakage Power Minimization via Gate Sizing and Vt swapping
 date: 2026-06-10
-description: A sensitivity-based Tcl optimization script that minimizes leakage power in IC designs by swapping cells to higher threshold voltage variants, while preserving timing constraints through a two-phase global timing recovery and leakage reduction flow.
+description: A sensitivity-based Tcl optimization script that minimizes leakage power in IC designs by swapping cells to higher threshold voltage variants or smaller sizes, while preserving timing constraints through a two-phase global timing recovery and leakage reduction flow.
 skills:
   - Physical design
   - Tcl scripting
@@ -16,7 +16,7 @@ main-image: https://images.unsplash.com/photo-1587845323226-bad89242c735?fm=jpg&
 
 ## Project Overview
 
-Leakage power is a dominant contributor to static power consumption in modern CMOS designs, and it increases exponentially as threshold voltage (Vt) decreases. This project develops an automated Tcl optimization script that minimizes leakage power across three benchmark circuits by systematically swapping cells to higher-Vt variants on non-critical paths, while recovering timing on critical paths using lower-Vt and upsized cells where needed.
+Leakage power is a dominant contributor to static power consumption in modern CMOS designs, and it increases exponentially as threshold voltage (Vt) decreases. This project develops an automated Tcl optimization script that minimizes leakage power across three benchmark circuits by systematically swapping cells to higher-Vt variants and/or smaller sizes on non-critical paths, while recovering timing on critical paths using lower-Vt and upsized cells where needed.
 
 **Designs:** `usb_phy`, `aes_cipher_top`, `mpeg2_top`  
 **Technology:** TSMC 65GP  
@@ -60,7 +60,7 @@ The baseline designs start with negative WNS (setup violations). Before leakage 
 1. Attempts Vt downgrade (HVT → NVT → LVT) to speed up the critical path
 2. If Vt downgrade is insufficient, upsizes the cell to a stronger drive strength variant
 3. Calls `compute_timing -full_update` after each swap to track WNS progress
-4. Stops when WNS ≥ -1ps
+4. Stops when WNS ≥ -3ps
 
 Starting WNS values before Phase 1:
 
